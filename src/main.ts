@@ -2,6 +2,7 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 
 // TODO: passport-jwt
+// TODO: role guard strategy
 
 // TODO: admin crud
 // NOTE: Role & Jwt guard
@@ -15,7 +16,7 @@ import { AppModule } from './app.module';
 // TODO: student crud
 // NOTE: Role & Jwt guard
 
-// TODO: student crud
+// TODO: Subject crud
 // NOTE: Role & Jwt guard
 
 async function bootstrap() {
