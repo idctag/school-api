@@ -1,7 +1,6 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 
-// TODO: passport-jwt
 // TODO: role guard strategy
 
 // TODO: admin crud
