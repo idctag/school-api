@@ -1,8 +1,6 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 
-// TODO: role guard strategy
-
 // TODO: admin crud
 // NOTE: Role & Jwt guard
 
