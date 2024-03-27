@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import * as argon from 'argon2';
-import { User } from '@prisma/client';
+import { Role, User } from '@prisma/client';
 import { JwtService } from '@nestjs/jwt';
 import { UsersService } from 'src/user/user.service';
 
@@ -28,7 +28,7 @@ export class AuthService {
   }
 
   async login(user: User) {
-    const payload = { email: user.email, sub: user.id };
+    const payload = { email: user.email, sub: user.id, roles: user.roles };
     return {
       access_token: this.jwtService.sign(payload),
     };

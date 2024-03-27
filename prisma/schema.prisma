@@ -22,18 +22,18 @@ enum Role {
 
 model User {
   id         Int       @id @default(autoincrement())
-  email      String    @unique
-  first_name String
-  last_name  String
-  created_at DateTime
-  updated_at DateTime
+  email      String?   @unique
+  first_name String?
+  last_name  String?
+  created_at DateTime? @default(now())
+  updated_at DateTime? @default(now())
   password   String
-  phone      String
+  phone      String?
   roles      Role[]
-  status     Boolean
-  birthday   DateTime
-  age        Int
-  residentId String
+  status     Boolean   @default(true)
+  birthday   DateTime?
+  age        Int?
+  residentId String?
   Student    Student[]
   Teacher    Teacher[]
   Manager    Manager[]
@@ -82,7 +82,7 @@ model Manager {
 
 model Admin {
   id     Int     @id @default(autoincrement())
-  super  Boolean
+  super  Boolean @default(false)
   user   User    @relation(fields: [userId], references: [id])
   userId Int
 }
