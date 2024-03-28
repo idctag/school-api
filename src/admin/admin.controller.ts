@@ -12,7 +12,7 @@ import { AdminService } from './admin.service';
 import { JwtGuard } from 'src/auth/guard/jwt-auth.guard';
 import { RolesGuard } from 'src/auth/guard/role-guard';
 import { Roles } from 'src/decorator/roles.decorator';
-import { Role } from '@prisma/client';
+import { Prisma, Role } from '@prisma/client';
 
 @UseGuards(JwtGuard, RolesGuard)
 @Roles(Role.ADMIN)
@@ -21,8 +21,8 @@ export class AdminController {
   constructor(private readonly adminService: AdminService) { }
 
   @Post()
-  create(@Body('email') email: string, @Body('password') password: string) {
-    return this.adminService.create(email, password);
+  create(@Body('data') data: Prisma.UserCreateInput) {
+    return this.adminService.create(data);
   }
 
   @Get()

@@ -1,20 +1,22 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma.service';
 import * as argon2 from 'argon2';
+import { Prisma } from '@prisma/client';
 
 @Injectable()
 export class AdminService {
   constructor(private prisma: PrismaService) {}
-  async create(email: string, password: string): Promise<any> {
-    const hashedPass = await argon2.hash(password);
+
+  async create(data: Prisma.UserCreateInput): Promise<any> {
+    console.log(data);
+    const hashedPass = await argon2.hash(data.password);
     return this.prisma.admin.create({
       data: {
         super: false,
         user: {
           create: {
-            email,
+            ...data,
             password: hashedPass,
-            roles: ['ADMIN'],
           },
         },
       },
