@@ -46,6 +46,11 @@ export class TeacherService {
   }
 
   async update(id: number, data: Prisma.TeacherUpdateInput) {
+    if (data.user?.update?.password) {
+      data.user.update.password = await argon2.hash(
+        data.user.update.password.toString(),
+      );
+    }
     const teacher = await this.prisma.teacher.update({
       where: { id: id },
       data: { ...data },

@@ -4,14 +4,15 @@ import { PrismaService } from 'src/prisma.service';
 import * as argon2 from 'argon2';
 
 @Injectable()
-export class ManagerService {
+export class StudentService {
   constructor(private prisma: PrismaService) { }
-  async create(data: Prisma.ManagerCreateInput) {
+
+  async create(data: Prisma.StudentCreateInput): Promise<any> {
     if (data.user.create?.password) {
       data.user.create.password = await argon2.hash(data.user.create.password);
     }
     try {
-      const manager = await this.prisma.manager.create({
+      const student = await this.prisma.student.create({
         data: {
           ...data,
         },
@@ -19,10 +20,10 @@ export class ManagerService {
           user: true,
         },
       });
-      return manager;
+      return student;
     } catch (err) {
       if (err.code === 'P2002') {
-        throw new Error('manager already exists');
+        throw new Error('student already exists');
       } else {
         throw new err();
       }
@@ -30,34 +31,34 @@ export class ManagerService {
   }
 
   async findAll() {
-    const managers = await this.prisma.manager.findMany({
+    const students = await this.prisma.student.findMany({
       include: { user: true },
     });
-    return managers;
+    return students;
   }
 
   async findOne(id: number) {
-    const manager = await this.prisma.manager.findUnique({
+    const student = await this.prisma.student.findUnique({
       where: { id: id },
       include: { user: true },
     });
-    return manager;
+    return student;
   }
 
-  async update(id: number, data: Prisma.ManagerUpdateInput) {
+  async update(id: number, data: Prisma.StudentUpdateInput) {
     if (data.user?.update?.password) {
       data.user.update.password = await argon2.hash(
         data.user.update.password.toString(),
       );
     }
-    const manager = await this.prisma.manager.update({
+    const student = await this.prisma.student.update({
       where: { id: id },
       data: { ...data },
     });
-    return manager;
+    return student;
   }
 
   async remove(id: number) {
-    return this.prisma.manager.delete({ where: { id: id } });
+    return this.prisma.student.delete({ where: { id: id } });
   }
 }

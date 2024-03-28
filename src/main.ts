@@ -1,14 +1,12 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 
-// TODO: teacher crud
-// NOTE: Role & Jwt guard
-
-// TODO: student crud
-// NOTE: Role & Jwt guard
-
 // TODO: Subject crud
 // NOTE: Role & Jwt guard
+
+// TODO: attendance crud
+// TODO: grade crud
+// TODO: class crud
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);

@@ -5,7 +5,7 @@ import { Prisma } from '@prisma/client';
 
 @Injectable()
 export class AdminService {
-  constructor(private prisma: PrismaService) { }
+  constructor(private prisma: PrismaService) {}
 
   async create(data: Prisma.AdminCreateInput): Promise<any> {
     if (data.user.create?.password) {
@@ -46,6 +46,11 @@ export class AdminService {
   }
 
   async update(id: number, data: Prisma.AdminUpdateInput) {
+    if (data.user?.update?.password) {
+      data.user.update.password = await argon2.hash(
+        data.user.update.password.toString(),
+      );
+    }
     const admin = await this.prisma.admin.update({
       where: { id: id },
       data: { ...data },
