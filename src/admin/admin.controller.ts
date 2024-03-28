@@ -21,7 +21,11 @@ export class AdminController {
   constructor(private readonly adminService: AdminService) { }
 
   @Post()
-  create(@Body('data') data: Prisma.UserCreateInput) {
+  create(
+    @Body('data')
+    data: Prisma.AdminCreateInput,
+  ) {
+    console.log(data);
     return this.adminService.create(data);
   }
 

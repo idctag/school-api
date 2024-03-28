@@ -7,23 +7,24 @@ import { Prisma } from '@prisma/client';
 export class AdminService {
   constructor(private prisma: PrismaService) {}
 
-  async create(data: Prisma.UserCreateInput): Promise<any> {
-    console.log(data);
-    const hashedPass = await argon2.hash(data.password);
-    return this.prisma.admin.create({
-      data: {
-        super: false,
-        user: {
-          create: {
-            ...data,
-            password: hashedPass,
-          },
+  async create(data: Prisma.AdminCreateInput): Promise<any> {
+    try {
+      const admin = await this.prisma.admin.create({
+        data: {
+          ...data,
         },
-      },
-      include: {
-        user: true,
-      },
-    });
+        include: {
+          user: true,
+        },
+      });
+      return admin;
+    } catch (err) {
+      if (err.code === 'P2002') {
+        throw new Error('admin already exists');
+      } else {
+        throw new err();
+      }
+    }
   }
 
   async findAll() {
