@@ -1,18 +1,17 @@
 import { Injectable } from '@nestjs/common';
+import { Prisma } from '@prisma/client';
 import { PrismaService } from 'src/prisma.service';
 import * as argon2 from 'argon2';
-import { Prisma } from '@prisma/client';
 
 @Injectable()
-export class AdminService {
-  constructor(private prisma: PrismaService) { }
-
-  async create(data: Prisma.AdminCreateInput): Promise<any> {
+export class ManagerService {
+  constructor(private prisma: PrismaService) {}
+  async create(data: Prisma.ManagerCreateInput) {
     if (data.user.create?.password) {
       data.user.create.password = await argon2.hash(data.user.create.password);
     }
     try {
-      const admin = await this.prisma.admin.create({
+      const manager = await this.prisma.manager.create({
         data: {
           ...data,
         },
@@ -20,10 +19,10 @@ export class AdminService {
           user: true,
         },
       });
-      return admin;
+      return manager;
     } catch (err) {
       if (err.code === 'P2002') {
-        throw new Error('admin already exists');
+        throw new Error('manager already exists');
       } else {
         throw new err();
       }
@@ -31,29 +30,29 @@ export class AdminService {
   }
 
   async findAll() {
-    const admins = await this.prisma.admin.findMany({
+    const managers = await this.prisma.manager.findMany({
       include: { user: true },
     });
-    return admins;
+    return managers;
   }
 
   async findOne(id: number) {
-    const admin = await this.prisma.admin.findUnique({
+    const manager = await this.prisma.manager.findUnique({
       where: { id: id },
       include: { user: true },
     });
-    return admin;
+    return manager;
   }
 
-  async update(id: number, data: Prisma.AdminUpdateInput) {
-    const admin = await this.prisma.admin.update({
+  async update(id: number, data: Prisma.ManagerUpdateInput) {
+    const manager = await this.prisma.manager.update({
       where: { id: id },
       data: { ...data },
     });
-    return admin;
+    return manager;
   }
 
   async remove(id: number) {
-    return this.prisma.admin.delete({ where: { id: id } });
+    return this.prisma.manager.delete({ where: { id: id } });
   }
 }

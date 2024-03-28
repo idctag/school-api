@@ -3,10 +3,10 @@ import {
   Get,
   Post,
   Body,
-  Patch,
   Param,
   Delete,
   UseGuards,
+  Put,
 } from '@nestjs/common';
 import { AdminService } from './admin.service';
 import { JwtGuard } from 'src/auth/guard/jwt-auth.guard';
@@ -18,7 +18,7 @@ import { Prisma, Role } from '@prisma/client';
 @Roles(Role.ADMIN)
 @Controller('admin')
 export class AdminController {
-  constructor(private readonly adminService: AdminService) {}
+  constructor(private readonly adminService: AdminService) { }
 
   @Post()
   create(
@@ -38,9 +38,9 @@ export class AdminController {
     return this.adminService.findOne(+id);
   }
 
-  @Patch(':id')
-  update() {
-    return this.adminService.update();
+  @Put(':id')
+  update(@Param('id') id: string, @Body('data') data: Prisma.AdminUpdateInput) {
+    return this.adminService.update(+id, data);
   }
 
   @Delete(':id')
