@@ -18,14 +18,13 @@ import { Prisma, Role } from '@prisma/client';
 @Roles(Role.ADMIN)
 @Controller('admin')
 export class AdminController {
-  constructor(private readonly adminService: AdminService) { }
+  constructor(private readonly adminService: AdminService) {}
 
   @Post()
   create(
     @Body('data')
     data: Prisma.AdminCreateInput,
   ) {
-    console.log(data);
     return this.adminService.create(data);
   }
 

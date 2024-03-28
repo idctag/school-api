@@ -8,6 +8,9 @@ export class AdminService {
   constructor(private prisma: PrismaService) {}
 
   async create(data: Prisma.AdminCreateInput): Promise<any> {
+    if (data.user.create?.password) {
+      data.user.create.password = await argon2.hash(data.user.create.password);
+    }
     try {
       const admin = await this.prisma.admin.create({
         data: {
