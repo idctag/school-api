@@ -13,7 +13,10 @@ import { Prisma, Role } from '@prisma/client';
 import { Roles } from 'src/decorator/roles.decorator';
 import { RolesGuard } from 'src/auth/guard/role-guard';
 import { JwtGuard } from 'src/auth/guard/jwt-auth.guard';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Manager')
+@ApiBearerAuth()
 @UseGuards(JwtGuard, RolesGuard)
 @Roles(Role.ADMIN, Role.MANAGER)
 @Controller('manager')

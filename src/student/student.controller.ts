@@ -13,12 +13,15 @@ import { Roles } from 'src/decorator/roles.decorator';
 import { JwtGuard } from 'src/auth/guard/jwt-auth.guard';
 import { RolesGuard } from 'src/auth/guard/role-guard';
 import { StudentService } from './student.service';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Student')
+@ApiBearerAuth()
 @UseGuards(JwtGuard, RolesGuard)
 @Roles(Role.ADMIN, Role.MANAGER)
 @Controller('student')
 export class StudentController {
-  constructor(private readonly studentService: StudentService) { }
+  constructor(private readonly studentService: StudentService) {}
 
   @Post()
   create(
