@@ -2,9 +2,6 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
-// TODO: Subject crud
-// NOTE: Role & Jwt guard
-
 // TODO: attendance crud
 // TODO: grade crud
 // TODO: class crud
